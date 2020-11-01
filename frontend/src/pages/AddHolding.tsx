@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import { Container, Form, Grid } from "semantic-ui-react";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
+import { Form } from "semantic-ui-react";
+import { AppContext } from "../state/AppContext";
+import { HoldingsActionTypes } from "../state/holdings/actions";
 
 interface FormState {
   name: string;
@@ -8,6 +11,8 @@ interface FormState {
 }
 
 export const AddHolding = () => {
+  const { state: appState, dispatch } = useContext(AppContext);
+  const history = useHistory();
   const [state, setState] = useState<FormState>({
     name: "",
     ticker: "",
@@ -26,7 +31,14 @@ export const AddHolding = () => {
     if (state.name === "" || state.ticker === "")
       return alert("Please complete all fields");
 
-    console.log(state);
+    if (!appState.holdings.authToken) return;
+
+    dispatch({
+      type: HoldingsActionTypes.CreateHolding,
+      payload: { token: appState.holdings.authToken, ...state },
+    });
+
+    history.push("/");
   };
 
   return (

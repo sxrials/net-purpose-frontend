@@ -1,6 +1,6 @@
 import { AnyAction } from "../actions";
 import { HoldingsActionTypes } from "./actions";
-import { GetHoldingsResponse } from "../../api/getHoldings";
+import { GetHoldingsResponse } from "../../api/holdings";
 
 export interface HoldingsState {
   authToken?: string;

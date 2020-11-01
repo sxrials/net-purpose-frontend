@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { GetHoldingsResponse } from "../api/getHoldings";
+import { GetHoldingsResponse } from "../api/holdings";
 import { Icon, Table } from "semantic-ui-react";
 import { formatUsd } from "../utils/currency";
 import { AppContext } from "../state/AppContext";

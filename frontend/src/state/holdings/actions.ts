@@ -1,5 +1,5 @@
 import { ActionMap } from "../types";
-import { GetHoldingsResponse, Holding } from "../../api/getHoldings";
+import { GetHoldingsResponse, Holding } from "../../api/holdings";
 
 export enum HoldingsActionTypes {
   FetchAuthToken = "FETCH_AUTH_TOKEN",
@@ -11,12 +11,20 @@ export enum HoldingsActionTypes {
   DeleteHolding = "DELETE_HOLDING",
   DeleteHoldingSuccess = "DELETE_HOLDING_SUCCESS",
   // TODO: DeleteHoldingFailure = "DELETE_HOLDING_FAILURE",
+  CreateHolding = "CREATE_HOLDING",
+  CreateHoldingSuccess = "CREATE_HOLDING_SUCCESS",
+  // TODO: CreateHoldingFailure = "CREATE_HOLDING_FAILURE",
 }
 
 type FetchAuthTokenPayload = { username: string; password: string };
 export type FetchHoldingsPayload = { token: string };
 export type DeleteHoldingPayload = { token: string; id: number };
-type DeleteHoldingSuccessPayload = Holding;
+export type CreateHoldingPayload = {
+  token: string;
+  name: string;
+  ticker: string;
+  value: number;
+};
 
 type HoldingsPayloads = {
   [HoldingsActionTypes.FetchAuthToken]: FetchAuthTokenPayload;
@@ -24,7 +32,8 @@ type HoldingsPayloads = {
   [HoldingsActionTypes.FetchHoldings]: FetchHoldingsPayload;
   [HoldingsActionTypes.FetchHoldingsSuccess]: GetHoldingsResponse;
   [HoldingsActionTypes.DeleteHolding]: DeleteHoldingPayload;
-  [HoldingsActionTypes.DeleteHoldingSuccess]: DeleteHoldingSuccessPayload;
+  [HoldingsActionTypes.DeleteHoldingSuccess]: Holding;
+  [HoldingsActionTypes.CreateHolding]: CreateHoldingPayload;
 };
 
 export type HoldingsAction = ActionMap<HoldingsPayloads>[keyof ActionMap<

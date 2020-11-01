@@ -1,4 +1,5 @@
 import {
+  CreateHoldingPayload,
   DeleteHoldingPayload,
   FetchHoldingsPayload,
 } from "../state/holdings/actions";
@@ -32,6 +33,26 @@ export const deleteHolding = async (
     headers: {
       Authorization: `Bearer ${payload.token}`,
     },
+  });
+  return response.json();
+};
+
+export const createHolding = async ({
+  token,
+  name,
+  ticker,
+  value,
+}: CreateHoldingPayload): Promise<Holding> => {
+  const response = await fetch(`/api/v1/holdings/`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      name,
+      ticker,
+      value,
+    }),
   });
   return response.json();
 };

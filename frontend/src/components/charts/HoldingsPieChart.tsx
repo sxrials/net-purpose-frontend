@@ -1,6 +1,6 @@
 import React from "react";
 import { PieArcSeries, PieChart } from "reaviz";
-import { GetHoldingsResponse } from "../../api/getHoldings";
+import { GetHoldingsResponse } from "../../api/holdings";
 import { formatUsd } from "../../utils/currency";
 import { HoldingsPieChartWrapper, PieWrapper } from "./HoldingsPieChart.style";
 
