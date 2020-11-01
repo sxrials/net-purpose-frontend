@@ -1,9 +1,10 @@
 import React from "react";
 import { Menu } from "semantic-ui-react";
 import { NavLink } from "react-router-dom";
+import { NavWrapper } from "./Nav.style";
 
 export const Nav = () => (
-  <div data-testid="nav">
+  <NavWrapper data-testid="nav">
     <Menu>
       <Menu.Item>
         <NavLink to="/" exact>
@@ -14,5 +15,5 @@ export const Nav = () => (
         <NavLink to="/add">Add holding</NavLink>
       </Menu.Item>
     </Menu>
-  </div>
+  </NavWrapper>
 );
