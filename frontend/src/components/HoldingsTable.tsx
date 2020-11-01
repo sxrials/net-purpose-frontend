@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import { GetHoldingsResponse } from "../api/holdings";
 import { Icon, Table } from "semantic-ui-react";
 import { formatUsd } from "../utils/currency";
@@ -11,6 +12,7 @@ interface Props {
 
 export const HoldingsTable: React.FC<Props> = ({ data }) => {
   const { state, dispatch } = useContext(AppContext);
+  const history = useHistory();
 
   const deleteItem = (id: number) => {
     if (!state.holdings.authToken) return;
@@ -21,7 +23,7 @@ export const HoldingsTable: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <Table sortable celled striped>
+    <Table sortable selectable celled striped>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell
@@ -61,7 +63,10 @@ export const HoldingsTable: React.FC<Props> = ({ data }) => {
       <Table.Body>
         {data.map((item) => {
           return (
-            <Table.Row key={item.ticker}>
+            <Table.Row
+              key={item.ticker}
+              onClick={() => history.push(`/details/${item.id}`)}
+            >
               <Table.Cell>{item.ticker}</Table.Cell>
               <Table.Cell>{item.name}</Table.Cell>
               <Table.Cell textAlign="right">{formatUsd(item.value)}</Table.Cell>

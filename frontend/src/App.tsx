@@ -9,6 +9,7 @@ import { Nav } from "./components/Nav";
 import { HoldingsActionTypes } from "./state/holdings/actions";
 import { AppContext } from "./state/AppContext";
 import { Loading } from "./components/Loading";
+import { Details } from "./pages/Details";
 
 const App = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -29,6 +30,11 @@ const App = () => {
           <Switch>
             <Route path="/" exact component={Dashboard} />
             <Route path="/add" exact component={AddHolding} />
+            <Route
+              path="/details/:id"
+              exact
+              render={(props) => <Details id={props.match.params.id} />}
+            />
             <Route component={NotFound} />
           </Switch>
         </BrowserRouter>
