@@ -1,8 +1,10 @@
 import { AnyAction } from "../actions";
 import { HoldingsActionTypes } from "./actions";
+import { GetHoldingsResponse } from "../../api/getHoldings";
 
 export interface HoldingsState {
   authToken?: string;
+  holdings?: GetHoldingsResponse;
 }
 
 export const holdingsReducer = (state: HoldingsState, action: AnyAction) => {
