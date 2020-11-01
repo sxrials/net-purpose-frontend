@@ -12,7 +12,11 @@ export const holdingsReducer = (state: HoldingsState, action: AnyAction) => {
         ...state,
         authToken: action.payload,
       };
-
+    case HoldingsActionTypes.FetchHoldingsSuccess:
+      return {
+        ...state,
+        holdings: action.payload,
+      };
     default:
       return state;
   }
