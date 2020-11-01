@@ -1,8 +1,13 @@
 import React from "react";
 import "./App.css";
+import { Container } from "semantic-ui-react";
 
-function App() {
-  return <div className="App">App goes here</div>;
-}
+const App = () => (
+  <div className="App">
+    <Container style={{ padding: "5rem 0rem" }}>
+      <h1>Your Holdings</h1>
+    </Container>
+  </div>
+);
 
 export default App;
