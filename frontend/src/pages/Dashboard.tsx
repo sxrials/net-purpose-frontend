@@ -20,17 +20,12 @@ export const Dashboard = () => {
 
   return state.holdings.holdings ? (
     <>
-      <Grid columns={2}>
+      <Grid columns={1}>
         <Grid.Column>
           <CenterContent>
             <HoldingsPieChart data={state.holdings.holdings} />
           </CenterContent>
         </Grid.Column>
-        <Grid.Column>
-          <p>Chart goes here</p>
-        </Grid.Column>
-      </Grid>
-      <Grid columns={1}>
         <Grid.Column>
           <HoldingsTable data={state.holdings.holdings} />
         </Grid.Column>
