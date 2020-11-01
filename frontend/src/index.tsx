@@ -6,9 +6,7 @@ import "semantic-ui-forest-themes/semantic.slate.min.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <App />
   </React.StrictMode>,
   document.getElementById("root")
 );
