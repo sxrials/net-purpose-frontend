@@ -5,6 +5,12 @@ export interface HoldingsState {}
 
 export const holdingsReducer = (state: HoldingsState, action: AnyAction) => {
   switch (action.type) {
+    case HoldingsActionTypes.FetchAuthTokenSuccess:
+      return {
+        ...state,
+        authToken: action.payload,
+      };
+
     default:
       return state;
   }

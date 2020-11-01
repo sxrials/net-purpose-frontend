@@ -8,8 +8,7 @@ export const holdingsAsyncActionHandlers = {
     dispatch,
   }: {
     dispatch: Dispatch<any>;
-    // @ts-ignore
-  }) => async (action) => {
+  }) => async (action: any) => {
     await new Promise((res) => setTimeout(res, 1000)); // Show off the loading state :)
 
     const token = await getAuthToken(
@@ -17,6 +16,9 @@ export const holdingsAsyncActionHandlers = {
       action.payload.password
     );
 
-    console.log("Token fetched: ", token);
+    dispatch({
+      type: HoldingsActionTypes.FetchAuthTokenSuccess,
+      payload: token,
+    });
   },
 };
