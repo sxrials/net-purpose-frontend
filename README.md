@@ -1,128 +1,61 @@
 # Net Purpose frontend tech test 🎨
 
-## What is the task?
-
-Your task is to create a frontend "admin dashboard" for some fictional portfolio holdings. Portfolio details will be delivered via the API (see below). We don't expect you to spend more than a couple hours on this, and there is no need to worry about updating the backend folder.
-
-We want to see three things: integration with APIs, display of data, and user interaction.
-
-### 1. Integration with API
-
-We'd like to see you fetch portfolio holdings data from the included API (see below for details), and ideally combine information from an external source like [AlphaVantage](https://www.alphavantage.co/).
-
-### 2. Display data
-
-Show the data retrieved from the API(s) on the page. Bonus points for creative visualisations and ideas (we like charts 📊)
-
-Mandatory feature set:
-
-- List of holdings
-
-Some ideas to extend if you have time:
-
-- Aggregate statistics on holdings, e.g. total portfolio value
-- Holdings performance over time - [link](https://www.alphavantage.co/documentation/#time-series-data)
-
-### 3. User interaction
-
-An example of the user interacting with the page, e.g. using buttons, sliders, dropdowns etc.
-
-Mandatory feature set:
-
-- Add and remove a holding (ideally on a separate page)
-- Sort the displayed list of holdings (e.g. by name and value)
-
-Some ideas to extend this part (feel free to come up with something more interesting):
-
-- Login flow
-- Update a holding
-- Search and filter the data that's displayed
-
-### Summary
-
-So, you should end up with an app that:
-
-- Grabs holdings data from the local API
-- Displays that on the page, with options to sort by name or value
-- On a separate page, allows you to add and remove a holding
-
-Plus whatever extensions you have time for!
-
-## Judging criteria
-
-We're going to look mostly at the structure and quality of your code, rather than how beautiful your solution looks. That being said, some appreciation of UX and interaction design principles are important.
-
-We're also interested to hear your thoughts on, or see your implementation for, things like:
-
-- State management
-- Componentisation and project organisation
-- Styling solutions
-- Testing strategy
-
-## The boilerplate
-
-### Frontend
-
-In the `frontend` directory, is an almost unmodified create-react-app project to help you get started quickly. If you prefer, please feel free to use your own boilerplate (and linting rules 😉).
-
-If you like TypeScript, [go for it](https://create-react-app.dev/docs/adding-typescript/). We also accept solutions using Vue.
-
-There is an example request to the API in `App.js`.
-
-### API
-
-Check out the swagger at [http://localhost/docs](http://localhost/docs). (See "How to get it running" below first)
-
-The API consists of three main endpoints: `/login`, `/users`, and `/holdings`:
-
-- `/login` - POST username and password, get back a JWT to use as Bearer auth with the other endpoints
-- `/users` - CRUD user management
-- `/holdings` - CRUD holdings - e.g. `GET /holdings` will return a list of your holdings
-
-You can login using these credentials to start with, it's up to you if you want to make your app multitenant:
-
-- user: admin@frontend.com
-- password: changethis
-
-> ⚠️ The holdings for this user will reset whenever the backend is restarted
-
-### Database
-
-Open a psql session with `docker-compose exec db bash`, then `psql -d app -U postgres`. Alternatively, you can inspect using pgAdmin - [http://localhost:5050](http://localhost:5050/)
-
-Mainly we are interested in the `holding` table:
-
+## Running the app
+I have changed the initial create-react-app template to a TypeScript one but the app is run in the same way:
 ```
- id  |                name                | ticker | value | owner_id
------+------------------------------------+--------+-------+----------
- 694 | APPLE INC                          | AAPL   | 82345 |        1
- 695 | MICROSOFT CORP                     | MSFT   | 12727 |        1
-```
-
-- Name: name of the company
-- Ticker: short code identifying the company, you can use this e.g. to look up data through AlphaVantage
-- Value: the 'amount' of stock held in that company, you can imagine this is in e.g. USD
-- Owner ID: foreign key to users table
-
-## How to get it running
-
-### Prerequisites
-
-- [Docker](https://www.docker.com/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-- [Node](https://nodejs.org/en/)
-- [Yarn](https://yarnpkg.com/getting-started/install)
-
-### Start the app
-
-```
-# in the backend directory
-docker-compose up -d
-
-# in the frontend directory
 yarn && yarn start
 ```
 
-Now go to [http://localhost:3000](http://localhost:3000) and you should see the app.
+## Included features
 
-Happy coding! ⌨️ 🖥 📊 🎨 ✨
+- ✅ Fetch portfolio getHoldings data from the included API
+- ✅ Chart visualisation
+    - A pie chart is included on the dashboard
+    - It updates when holdings are added/removed/sorted
+- ✅ Aggregate statistics
+    - Total portfolio value is included on the dashboard
+- ✅ Add holding on separate page
+- ✅ Remove holding on separate page
+    - Click anywhere on the row to access the 'Remove' page
+- ✅ Sort the holdings
+    - Click the table row header to sort by that column
+    - There is a bug with reverse sorting (i.e. clicking on a heading twice) but I decided to use the time to focus on adding the requested features instead of resolving this.
+
+## Things that I would have liked to implement
+I did not have enough time to combine information from an external source however I spent time looking at the AlphaVantage API and had some thoughts on how it could be used:
+
+- The 'overview' endpoint
+    - https://www.alphavantage.co/query?function=OVERVIEW&symbol=XOM&apikey=qweqweqwe
+    - The most straightforward application would be to include the description and other summary data within the detail page of the app. The high priority information might include market cap and P/E ratio.
+    - The sector information could be used to group the holdings, which would be beneficial for users with many holdings. For example, an additional pie chart could be included on the dashboard showing total value per sector.
+
+- The 'time series daily adjusted' endpoint
+    - https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=IBM&apikey=demo
+    - As suggested in the original README, this would be a useful endpoint from which to extract information on holding performance over time.
+
+## Some comments on the judging criteria
+### State management
+I have included a redux-style reducer to manage application state. I've structured the reducers in such a way that it would be straightforward to include another reducer for the external API data. This could perhaps take the form of a `marketData` reducer. I wanted to include this style of state management architecture because I understand that the Net Purpose applications are structured in a similar way. You could argue that my chosen approach is overkill for a small example app but I hope it demonstrates my understanding.
+
+You'll notice that I have included actions for failure states but I have not implemented them yet. In the interest of time, I chose to build the "happy path" but I am aware that things can go wrong when communicating with APIs (e.g. network errors, timeouts, unexpected responses). All of these problems should be communicated to the user somehow, which means that recording these failures in the application state is important.
+
+For the form state in my submission, I wanted to demonstrate simple use of the `useState` hook. Having chosen that approach, I wanted to mention that larger projects that I work on often contain a form state management library and I recognise that there are certain cases where shared form state has advantages over component-level state (e.g. submitting a form from an overlay dialog that sits outside of the `<form>` element.
+
+### Componentisation and project organisation
+In order to help readability and reduce typing, I often use "action creator" functions instead of including the dispatchable actions in-line. These action creators are just functions that return an action. In my example app, I have included the actions in-line but, as the number and complexity of the actions grow, I can see action creators being beneficial.
+
+Another feature that I would suggest including in future is selectors. Rather than drilling down the application state (e.g. `state.holdings.holdings.something.somethingElse`), a selector function could be used as a shorthand to traverse several nested properties of an object. I have worked on projects using selectors and have often found it helpful to compose selectors, or memoize them if they do more than simply access properties.
+
+### Styling solutions
+I have used styled-components and I understand that this is the approach currently used at Net Purpose. I have more in-depth experience than I was able to show in my submission, which includes composing components and conditional styles.
+
+I am aware that there are a couple of styles in my submission that could be tidied up. I left these as-is in the interest of time, but I wanted to flag it because it does bother me :)
+
+### Testing strategy
+I often use test-driven development as my preferred way of working. Test-driving this project in the suggested time window would have been impossible but I have included some example jest tests to show my understanding of unit testing.
+
+There are many other types of testing that I like to include in my projects, including acceptance and integration tests. I keep in mind the testing pyramid when deciding what aspects of the application to test with each method.
+
+---
+
+Thanks for reading. Please let me know your thoughts.
