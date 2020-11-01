@@ -6,7 +6,11 @@ export interface RootState {
 }
 
 export const initialState: RootState = {
-  holdings: {},
+  holdings: {
+    sorting: {
+      column: "",
+    },
+  },
 };
 
 export const rootReducer = ({ holdings }: RootState, action: AnyAction) => ({

@@ -14,6 +14,7 @@ export enum HoldingsActionTypes {
   CreateHolding = "CREATE_HOLDING",
   CreateHoldingSuccess = "CREATE_HOLDING_SUCCESS",
   // TODO: CreateHoldingFailure = "CREATE_HOLDING_FAILURE",
+  ChangeSort = "CHANGE_SORT",
 }
 
 type FetchAuthTokenPayload = { username: string; password: string };
@@ -25,6 +26,7 @@ export type CreateHoldingPayload = {
   ticker: string;
   value: number;
 };
+type ChangeSortPayload = { column: string };
 
 type HoldingsPayloads = {
   [HoldingsActionTypes.FetchAuthToken]: FetchAuthTokenPayload;
@@ -34,6 +36,7 @@ type HoldingsPayloads = {
   [HoldingsActionTypes.DeleteHolding]: DeleteHoldingPayload;
   [HoldingsActionTypes.DeleteHoldingSuccess]: Holding;
   [HoldingsActionTypes.CreateHolding]: CreateHoldingPayload;
+  [HoldingsActionTypes.ChangeSort]: ChangeSortPayload;
 };
 
 export type HoldingsAction = ActionMap<HoldingsPayloads>[keyof ActionMap<

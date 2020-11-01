@@ -21,12 +21,40 @@ export const HoldingsTable: React.FC<Props> = ({ data }) => {
   };
 
   return (
-    <Table celled striped>
+    <Table sortable celled striped>
       <Table.Header>
         <Table.Row>
-          <Table.HeaderCell>Ticker</Table.HeaderCell>
-          <Table.HeaderCell>Name</Table.HeaderCell>
-          <Table.HeaderCell colSpan="2">Value (USD)</Table.HeaderCell>
+          <Table.HeaderCell
+            onClick={() =>
+              dispatch({
+                type: HoldingsActionTypes.ChangeSort,
+                payload: { column: "ticker" },
+              })
+            }
+          >
+            Ticker
+          </Table.HeaderCell>
+          <Table.HeaderCell
+            onClick={() =>
+              dispatch({
+                type: HoldingsActionTypes.ChangeSort,
+                payload: { column: "name" },
+              })
+            }
+          >
+            Name
+          </Table.HeaderCell>
+          <Table.HeaderCell
+            onClick={() =>
+              dispatch({
+                type: HoldingsActionTypes.ChangeSort,
+                payload: { column: "value" },
+              })
+            }
+            colSpan="2"
+          >
+            Value (USD)
+          </Table.HeaderCell>
         </Table.Row>
       </Table.Header>
 

@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { AnyAction } from "../actions";
 import { HoldingsActionTypes } from "./actions";
 import { GetHoldingsResponse } from "../../api/holdings";
@@ -5,6 +6,9 @@ import { GetHoldingsResponse } from "../../api/holdings";
 export interface HoldingsState {
   authToken?: string;
   holdings?: GetHoldingsResponse;
+  sorting: {
+    column: string;
+  };
 }
 
 export const holdingsReducer = (state: HoldingsState, action: AnyAction) => {
@@ -30,6 +34,21 @@ export const holdingsReducer = (state: HoldingsState, action: AnyAction) => {
             ],
           }
         : state;
+    case HoldingsActionTypes.ChangeSort:
+      if (!state.holdings) return state;
+      if (state.sorting.column === action.payload.column) {
+        return {
+          ...state,
+          holdings: state.holdings.reverse(),
+        };
+      }
+      return {
+        ...state,
+        holdings: _.sortBy(state.holdings, [action.payload.column]),
+        sorting: {
+          column: action.payload.column,
+        },
+      };
     default:
       return state;
   }
