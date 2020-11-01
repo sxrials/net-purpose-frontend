@@ -19,6 +19,17 @@ export const holdingsReducer = (state: HoldingsState, action: AnyAction) => {
         ...state,
         holdings: action.payload,
       };
+    case HoldingsActionTypes.DeleteHoldingSuccess:
+      return state.holdings
+        ? {
+            ...state,
+            holdings: [
+              ...state.holdings.filter(
+                (holding) => holding.id !== action.payload.id
+              ),
+            ],
+          }
+        : state;
     default:
       return state;
   }

@@ -3,6 +3,7 @@ import { GetHoldingsResponse } from "../api/getHoldings";
 import { Icon, Table } from "semantic-ui-react";
 import { formatUsd } from "../utils/currency";
 import { AppContext } from "../state/AppContext";
+import { HoldingsActionTypes } from "../state/holdings/actions";
 
 interface Props {
   data: GetHoldingsResponse;
@@ -10,6 +11,14 @@ interface Props {
 
 export const HoldingsTable: React.FC<Props> = ({ data }) => {
   const { state, dispatch } = useContext(AppContext);
+
+  const deleteItem = (id: number) => {
+    if (!state.holdings.authToken) return;
+    dispatch({
+      type: HoldingsActionTypes.DeleteHolding,
+      payload: { token: state.holdings.authToken, id },
+    });
+  };
 
   return (
     <Table celled striped>
@@ -29,7 +38,7 @@ export const HoldingsTable: React.FC<Props> = ({ data }) => {
               <Table.Cell>{item.name}</Table.Cell>
               <Table.Cell textAlign="right">{formatUsd(item.value)}</Table.Cell>
               <Table.Cell collapsing>
-                <Icon name="trash" />
+                <Icon name="trash" onClick={() => deleteItem(item.id)} />
               </Table.Cell>
             </Table.Row>
           );

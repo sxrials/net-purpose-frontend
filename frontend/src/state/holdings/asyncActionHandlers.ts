@@ -2,7 +2,7 @@ import { HoldingsAction, HoldingsActionTypes } from "./actions";
 import { getAuthToken } from "../../api/getAuthToken";
 import { Dispatch } from "react";
 import { AnyAction } from "../actions";
-import { getHoldings } from "../../api/getHoldings";
+import { deleteHolding, getHoldings } from "../../api/getHoldings";
 
 interface AsyncActionHandlerProps {
   dispatch: Dispatch<any>;
@@ -31,6 +31,16 @@ export const holdingsAsyncActionHandlers = {
     dispatch({
       type: HoldingsActionTypes.FetchHoldingsSuccess,
       payload: holdings,
+    });
+  },
+
+  [HoldingsActionTypes.DeleteHolding]: ({
+    dispatch,
+  }: AsyncActionHandlerProps) => async (action: any) => {
+    const deletedHolding = await deleteHolding(action.payload);
+    dispatch({
+      type: HoldingsActionTypes.DeleteHoldingSuccess,
+      payload: deletedHolding,
     });
   },
 };
