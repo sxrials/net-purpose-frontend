@@ -1,7 +1,9 @@
 import { AnyAction } from "../actions";
 import { HoldingsActionTypes } from "./actions";
 
-export interface HoldingsState {}
+export interface HoldingsState {
+  authToken?: string;
+}
 
 export const holdingsReducer = (state: HoldingsState, action: AnyAction) => {
   switch (action.type) {

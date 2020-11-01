@@ -8,6 +8,7 @@ import { AddHolding } from "./pages/AddHolding";
 import { Nav } from "./components/Nav";
 import { HoldingsActionTypes } from "./state/holdings/actions";
 import { AppContext } from "./state/AppContext";
+import { Loading } from "./components/Loading";
 
 const App = () => {
   const { state, dispatch } = useContext(AppContext);
@@ -19,7 +20,7 @@ const App = () => {
     });
   }, [dispatch]);
 
-  return (
+  return state.holdings.authToken ? (
     <div className="App">
       <Container style={{ padding: "5rem 0rem" }}>
         <h1>Your Holdings</h1>
@@ -33,6 +34,8 @@ const App = () => {
         </BrowserRouter>
       </Container>
     </div>
+  ) : (
+    <Loading message="Logging in..." />
   );
 };
 
