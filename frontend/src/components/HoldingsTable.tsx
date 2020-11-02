@@ -22,6 +22,10 @@ export const HoldingsTable: React.FC<Props> = ({ data }) => {
     });
   };
 
+  const handleRowClick = (id: number) => {
+    history.push(`/details/${id}`);
+  };
+
   return (
     <Table sortable selectable celled striped>
       <Table.Header>
@@ -63,15 +67,21 @@ export const HoldingsTable: React.FC<Props> = ({ data }) => {
       <Table.Body>
         {data.map((item) => {
           return (
-            <Table.Row
-              key={item.ticker}
-              onClick={() => history.push(`/details/${item.id}`)}
-            >
-              <Table.Cell>{item.ticker}</Table.Cell>
-              <Table.Cell>{item.name}</Table.Cell>
-              <Table.Cell textAlign="right">{formatUsd(item.value)}</Table.Cell>
-              <Table.Cell collapsing>
-                <Icon name="trash" onClick={() => deleteItem(item.id)} />
+            <Table.Row key={item.ticker}>
+              <Table.Cell onClick={() => handleRowClick(item.id)}>
+                {item.ticker}
+              </Table.Cell>
+              <Table.Cell onClick={() => handleRowClick(item.id)}>
+                {item.name}
+              </Table.Cell>
+              <Table.Cell
+                textAlign="right"
+                onClick={() => handleRowClick(item.id)}
+              >
+                {formatUsd(item.value)}
+              </Table.Cell>
+              <Table.Cell collapsing onClick={() => deleteItem(item.id)}>
+                <Icon name="trash" />
               </Table.Cell>
             </Table.Row>
           );
